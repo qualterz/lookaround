@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "lookaround",
+  "version": "${version}",
+
+  "name": "Look Around!",
+  "description": "Allows you to look around while moving in one direction",
+  "authors": [
+    "Qualterz"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/lookaround/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "qualterz.mcmod.lookaround.LookAroundMod"
+    ]
+  },
+  "mixins": [
+    "lookaround.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
