@@ -1,11 +1,12 @@
 package qualterz.mcmod.lookaround;
 
-import net.minecraft.util.math.MathHelper;
-
 public class CameraManager {
+    public static double offsetCrosshairX;
+    public static double offsetCrosshairY;
     public static float actualYaw;
     public static float actualPitch;
     public static float lookYaw;
     public static float lookPitch;
+    public static boolean drawCrosshair;
     public static boolean cameraLocked;
 }
