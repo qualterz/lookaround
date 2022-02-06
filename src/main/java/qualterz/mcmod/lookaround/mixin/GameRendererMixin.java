@@ -1,5 +1,6 @@
 package qualterz.mcmod.lookaround.mixin;
 
+import net.minecraft.util.math.MathHelper;
 import qualterz.mcmod.lookaround.CameraManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -40,9 +41,13 @@ public abstract class GameRendererMixin {
     {
         var cameraEntity = getCameraEntity();
 
-        // TODO: adjust yaw and pitch for better hand render: don't show hand while looking behind, while swinging hand shouldn't be rendered
+        var pitch = CameraManager.lookPitch;
+
+        if (CameraManager.cameraLocked)
+            pitch -= MathHelper.abs(CameraManager.lookYaw - CameraManager.actualYaw);
+
         cameraEntity.setYaw(CameraManager.lookYaw);
-        cameraEntity.setPitch(CameraManager.lookPitch);
+        cameraEntity.setPitch(pitch);
     }
 
     @Inject(method = "renderHand", at = @At("RETURN"))
