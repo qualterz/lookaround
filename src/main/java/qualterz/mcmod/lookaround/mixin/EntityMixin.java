@@ -1,5 +1,6 @@
 package qualterz.mcmod.lookaround.mixin;
 
+import net.minecraft.util.math.MathHelper;
 import qualterz.mcmod.lookaround.CameraManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -24,7 +25,9 @@ public abstract class EntityMixin {
         }
 
         if (CameraManager.cameraLocked) {
-            CameraManager.changeLookDirection(cursorDeltaX, cursorDeltaY);
+            CameraManager.lookPitch += (float)cursorDeltaY * 0.15f;
+            CameraManager.lookYaw += (float)cursorDeltaX * 0.15f;
+            CameraManager.lookPitch = MathHelper.clamp(CameraManager.lookPitch, -90f, 90f);
 
             // TODO: implement camera lock for vehicle: horse
             if (entity.hasVehicle())
