@@ -11,19 +11,19 @@ import org.slf4j.LoggerFactory;
 public class LookAroundMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
 
-	private static final KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
-		new KeyBinding(
-			"key.lookAround",
-			InputUtil.Type.KEYSYM,
-			InputUtil.GLFW_KEY_LEFT_ALT,
-			KeyBinding.MISC_CATEGORY
-		)
-	);
-
 	@Override
 	public void onInitialize() {
+		var lookAroundBinding = KeyBindingHelper.registerKeyBinding(
+			new KeyBinding(
+				"key.lookAround",
+				InputUtil.Type.KEYSYM,
+				InputUtil.GLFW_KEY_LEFT_ALT,
+				KeyBinding.MISC_CATEGORY
+			)
+		);
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			CameraManager.cameraLocked = keyBinding.isPressed();
+			CameraManager.cameraLocked = lookAroundBinding.isPressed();
 		});
 	}
 }
