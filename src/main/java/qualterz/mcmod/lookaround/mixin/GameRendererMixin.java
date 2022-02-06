@@ -40,7 +40,7 @@ public abstract class GameRendererMixin {
     {
         var cameraEntity = getCameraEntity();
 
-        // TODO: adjust yaw and pitch for better hand render: don't show hand while looking behind
+        // TODO: adjust yaw and pitch for better hand render: don't show hand while looking behind, while swinging hand shouldn't be rendered
         cameraEntity.setYaw(CameraManager.lookYaw);
         cameraEntity.setPitch(CameraManager.lookPitch);
     }
