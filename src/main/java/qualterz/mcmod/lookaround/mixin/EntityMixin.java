@@ -26,7 +26,7 @@ public abstract class EntityMixin {
         if (CameraManager.cameraLocked) {
             CameraManager.changeLookDirection(cursorDeltaX, cursorDeltaY);
 
-            // TODO: implement camera lock for vehicle
+            // TODO: implement camera lock for vehicle: horse
             if (entity.hasVehicle())
                 return;
 
