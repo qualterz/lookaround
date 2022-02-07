@@ -21,7 +21,7 @@ public abstract class EntityMixin {
         CameraManager.actualYaw = camera.getYaw();
         CameraManager.actualPitch = camera.getPitch();
 
-        if (!CameraManager.cameraLocked) {
+        if (!CameraManager.viewLock) {
             CameraManager.offsetCrosshairX = 0;
             CameraManager.offsetCrosshairY = 0;
 
@@ -32,7 +32,7 @@ public abstract class EntityMixin {
             CameraManager.drawCrosshair = true;
         }
 
-        if (CameraManager.cameraLocked) {
+        if (CameraManager.viewLock) {
             // TODO: combine values with tick delta to prevent shaking or flickering
 
             CameraManager.lookYaw += (float)cursorDeltaX * 0.15f;

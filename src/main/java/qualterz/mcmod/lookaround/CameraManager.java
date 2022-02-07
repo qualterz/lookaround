@@ -8,5 +8,5 @@ public class CameraManager {
     public static float lookYaw;
     public static float lookPitch;
     public static boolean drawCrosshair;
-    public static boolean cameraLocked;
+    public static boolean viewLock;
 }

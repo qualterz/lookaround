@@ -23,7 +23,7 @@ public class LookAroundMod implements ModInitializer {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			CameraManager.cameraLocked = lookAroundBinding.isPressed();
+			CameraManager.viewLock = lookAroundBinding.isPressed();
 		});
 	}
 }
