@@ -16,7 +16,7 @@ public abstract class EntityMixin {
     private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo ci)
     {
         var client = MinecraftClient.getInstance();
-        var camera = client.cameraEntity;
+        var camera = client.getCameraEntity();
 
         CameraManager.actualYaw = camera.getYaw();
         CameraManager.actualPitch = camera.getPitch();
