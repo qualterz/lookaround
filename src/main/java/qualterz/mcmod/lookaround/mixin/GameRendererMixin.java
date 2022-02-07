@@ -26,6 +26,8 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderWorld", at = @At("HEAD"))
     private void onRenderWorldBegin(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci)
     {
+        CameraManager.tickDelta = tickDelta;
+
         var limitNegativeYaw = CameraManager.actualYaw - 180f;
         var limitPositiveYaw = CameraManager.actualYaw + 180f;
 

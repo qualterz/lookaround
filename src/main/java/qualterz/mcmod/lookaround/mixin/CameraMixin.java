@@ -12,7 +12,7 @@ public abstract class CameraMixin
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
 	private void modifyRotationArgs(Args args)
 	{
-		if (CameraManager.viewLock) {
+		if (CameraManager.viewLock || CameraManager.animate) {
 			args.set(0, CameraManager.lookYaw);
 			args.set(1, CameraManager.lookPitch);
 		}
