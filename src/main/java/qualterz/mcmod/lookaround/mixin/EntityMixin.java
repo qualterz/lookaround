@@ -25,6 +25,7 @@ public abstract class EntityMixin {
             CameraManager.offsetCrosshairX = 0;
             CameraManager.offsetCrosshairY = 0;
 
+            // TODO: adjust values according to spectatable entity
             CameraManager.lookYaw = camera.getYaw();
             CameraManager.lookPitch = camera.getPitch();
 
@@ -32,6 +33,8 @@ public abstract class EntityMixin {
         }
 
         if (CameraManager.cameraLocked) {
+            // TODO: combine values with tick delta to prevent shaking or flickering
+
             CameraManager.lookYaw += (float)cursorDeltaX * 0.15f;
             CameraManager.lookPitch += (float)cursorDeltaY * 0.15f;
             CameraManager.lookPitch = MathHelper.clamp(CameraManager.lookPitch, -90f, 90f);
