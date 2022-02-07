@@ -55,7 +55,6 @@ public abstract class GameRendererMixin {
     {
         var cameraEntity = getCameraEntity();
 
-        // TODO: implement smooth animation
         cameraEntity.setYaw(CameraManager.actualYaw);
         cameraEntity.setPitch(CameraManager.actualPitch);
     }
