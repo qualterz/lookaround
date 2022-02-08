@@ -1,10 +1,12 @@
-package qualterz.mcmod.lookaround.mixin;
+package qualterz.minecraft.lookaround.mixin;
 
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import qualterz.mcmod.lookaround.CameraManager;
-import net.minecraft.client.render.Camera;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
+
+import net.minecraft.client.render.Camera;
+
+import qualterz.minecraft.lookaround.CameraManager;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin

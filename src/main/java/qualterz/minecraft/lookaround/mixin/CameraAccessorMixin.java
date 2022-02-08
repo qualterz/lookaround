@@ -1,6 +1,7 @@
-package qualterz.mcmod.lookaround.mixin;
+package qualterz.minecraft.lookaround.mixin;
 
 import net.minecraft.client.render.Camera;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

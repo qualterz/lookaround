@@ -1,14 +1,16 @@
-package qualterz.mcmod.lookaround.mixin;
+package qualterz.minecraft.lookaround.mixin;
 
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import qualterz.mcmod.lookaround.CameraManager;
+
+import qualterz.minecraft.lookaround.CameraManager;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {

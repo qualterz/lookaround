@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "qualterz.mcmod.lookaround.LookAroundMod"
+      "qualterz.minecraft.lookaround.LookAroundMod"
     ]
   },
   "mixins": [

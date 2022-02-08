@@ -1,4 +1,4 @@
-package qualterz.mcmod.lookaround;
+package qualterz.minecraft.lookaround;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.*;

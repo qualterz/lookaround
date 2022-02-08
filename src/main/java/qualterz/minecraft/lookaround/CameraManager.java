@@ -1,4 +1,4 @@
-package qualterz.mcmod.lookaround;
+package qualterz.minecraft.lookaround;
 
 public class CameraManager {
     public static float tickDelta;
