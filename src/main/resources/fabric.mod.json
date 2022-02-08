@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Look Around!",
-  "description": "Allows you to look around while moving in one direction",
+  "description": "Allows you to look around while moving or doing something",
   "authors": [
     "Qualterz"
   ],
