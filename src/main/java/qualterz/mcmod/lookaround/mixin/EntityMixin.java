@@ -37,7 +37,7 @@ public abstract class EntityMixin {
             CameraManager.offsetCrosshairX = 0;
             CameraManager.offsetCrosshairY = 0;
 
-            // TODO: rework animation, make it more smoother, use animation steps
+            // TODO: rework animation, make it more smoother, use animation steps, mouse motion
             if (CameraManager.animate) {
                 CameraManager.animateYaw = CameraManager.lookYaw != actualYaw;
                 CameraManager.animatePitch = CameraManager.lookPitch != actualPitch;
