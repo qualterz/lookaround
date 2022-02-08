@@ -1,5 +1,5 @@
 # Look Around!
-Fabric mod that allows you to look around while moving in one direction
+A Fabric mod that allows you to look around while moving in one direction
 
 https://user-images.githubusercontent.com/38355785/152867324-24a482ad-86c7-4853-8b34-534366ba8217.mp4
 
