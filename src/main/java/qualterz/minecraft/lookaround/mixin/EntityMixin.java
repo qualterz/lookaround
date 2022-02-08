@@ -45,7 +45,7 @@ public abstract class EntityMixin {
                 CameraManager.animatePitch = CameraManager.lookPitch != actualPitch;
 
                 if (CameraManager.animateYaw) {
-                    var yawOffset = CameraManager.animationSpeed * CameraManager.tickDelta + transformedCursorDeltaX;
+                    var yawOffset = CameraManager.animationSpeed * CameraManager.tickDelta;
 
                     if (CameraManager.lookYaw > actualYaw) {
                         if (CameraManager.lookYaw - yawOffset < actualYaw)
@@ -61,7 +61,7 @@ public abstract class EntityMixin {
                 }
 
                 if (CameraManager.animatePitch) {
-                    var pitchOffset = (CameraManager.animationSpeed / 2) * CameraManager.tickDelta + transformedCursorDeltaY;
+                    var pitchOffset = (CameraManager.animationSpeed / 2) * CameraManager.tickDelta;
 
                     if (CameraManager.lookPitch > actualPitch) {
                         if (CameraManager.lookPitch - pitchOffset < actualPitch)
