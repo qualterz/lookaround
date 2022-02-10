@@ -1,5 +1,5 @@
 # Look Around!
-A Fabric mod that allows you to look around while moving or doing something
+A client-side Fabric mod that allows you to look around while moving or doing something
 
 <details open>
 <summary>Demonstration</summary>
