@@ -9,106 +9,75 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 
-import qualterz.minecraft.lookaround.CameraManager;
+import qualterz.minecraft.lookaround.LookAroundMod;
 import qualterz.minecraft.lookaround.ProjectionUtils;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
-
     @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
     private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo ci)
     {
-        var client = MinecraftClient.getInstance();
-        var camera = client.getCameraEntity();
+        var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
-        var transformedCursorDeltaX = (float)cursorDeltaX * 0.15f;
-        var transformedCursorDeltaY = (float)cursorDeltaY * 0.15f;
+        if (LookAroundMod.shouldLockDirection && !LookAroundMod.isDirectionLocked) {
+            LookAroundMod.actualYaw = cameraEntity.getYaw();
+            LookAroundMod.actualPitch = cameraEntity.getPitch();
+        }
 
-        CameraManager.lookYaw += transformedCursorDeltaX;
-        CameraManager.lookPitch += transformedCursorDeltaY;
-        CameraManager.lookPitch = MathHelper.clamp(CameraManager.lookPitch, -90f, 90f);
+        if (!LookAroundMod.shouldLockDirection && LookAroundMod.isDirectionLocked) {
+            LookAroundMod.offsetCrosshairX = 0;
+            LookAroundMod.offsetCrosshairY = 0;
 
-        // TODO: combine values with tick delta to prevent shaking or flickering
-        if (!CameraManager.viewLock) {
-            final var actualYaw = camera.getYaw();
-            final var actualPitch = camera.getPitch();
+            LookAroundMod.shouldDrawCrosshair = true;
+            LookAroundMod.isDirectionLocked = false;
+        }
 
-            CameraManager.actualYaw = actualYaw;
-            CameraManager.actualPitch = actualPitch;
+        if (!LookAroundMod.isDirectionLocked) {
+            var yaw = cameraEntity.getYaw();
+            var pitch = cameraEntity.getPitch();
 
-            CameraManager.offsetCrosshairX = 0;
-            CameraManager.offsetCrosshairY = 0;
+            LookAroundMod.actualYaw = yaw;
+            LookAroundMod.actualPitch = pitch;
 
-            // TODO: rework animation, make it more smoother, use animation steps, mouse motion
-            if (CameraManager.animate) {
-                CameraManager.animateYaw = CameraManager.lookYaw != actualYaw;
-                CameraManager.animatePitch = CameraManager.lookPitch != actualPitch;
+            LookAroundMod.lookYaw = yaw;
+            LookAroundMod.lookPitch = pitch;
 
-                if (CameraManager.animateYaw) {
-                    var yawOffset = CameraManager.animationSpeed * CameraManager.tickDelta;
+            LookAroundMod.shouldDrawCrosshair = true;
+        }
 
-                    if (CameraManager.lookYaw > actualYaw) {
-                        if (CameraManager.lookYaw - yawOffset < actualYaw)
-                            CameraManager.lookYaw = actualYaw;
-                        else
-                            CameraManager.lookYaw -= yawOffset;
-                    } else if (CameraManager.lookYaw < actualYaw) {
-                        if (CameraManager.lookYaw + yawOffset > actualYaw)
-                            CameraManager.lookYaw = actualYaw;
-                        else
-                            CameraManager.lookYaw += yawOffset;
-                    }
-                }
+        if (LookAroundMod.isDirectionLocked) {
+            var cursorDeltaMultiplier = 0.15f;
+            var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
+            var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
 
-                if (CameraManager.animatePitch) {
-                    var pitchOffset = (CameraManager.animationSpeed / 2) * CameraManager.tickDelta;
+            LookAroundMod.lookYaw += transformedCursorDeltaX;
+            LookAroundMod.lookPitch += transformedCursorDeltaY;
+            LookAroundMod.lookPitch = MathHelper.clamp(LookAroundMod.lookPitch, -90f, 90f);
 
-                    if (CameraManager.lookPitch > actualPitch) {
-                        if (CameraManager.lookPitch - pitchOffset < actualPitch)
-                            CameraManager.lookPitch = actualPitch;
-                        else
-                            CameraManager.lookPitch -= pitchOffset;
-                    } else if (CameraManager.lookPitch < actualPitch) {
-                        if (CameraManager.lookPitch + pitchOffset > actualPitch)
-                            CameraManager.lookPitch = actualPitch;
-                        else
-                            CameraManager.lookPitch += pitchOffset;
-                    }
-                }
-
-                CameraManager.animate = CameraManager.animateYaw || CameraManager.animatePitch;
-
-            } else {
-                // TODO: adjust values according to spectatable entity
-                CameraManager.lookYaw = camera.getYaw();
-                CameraManager.lookPitch = camera.getPitch();
-            }
-
-            CameraManager.drawCrosshair = true;
-        } else {
             var distance = Integer.MAX_VALUE;
-            var position = camera.getPos();
-            var rotation = camera.getRotationVecClient();
+            var position = cameraEntity.getPos();
+            var rotation = cameraEntity.getRotationVecClient();
 
             var point = position.add(
-                rotation.getX() * distance,
-                rotation.getY() * distance,
-                rotation.getZ() * distance
+                    rotation.getX() * distance,
+                    rotation.getY() * distance,
+                    rotation.getZ() * distance
             );
 
             var projected = ProjectionUtils.worldToScreen(point);
 
             if (projected.getZ() < 0) {
-                CameraManager.offsetCrosshairX = -projected.getX();
-                CameraManager.offsetCrosshairY = -projected.getY();
-                CameraManager.drawCrosshair = true;
+                LookAroundMod.offsetCrosshairX = -projected.getX();
+                LookAroundMod.offsetCrosshairY = -projected.getY();
+                LookAroundMod.shouldDrawCrosshair = true;
             } else {
-                CameraManager.drawCrosshair = false;
+                LookAroundMod.shouldDrawCrosshair = false;
             }
+        }
 
-            CameraManager.animate = true;
-
+        if (LookAroundMod.shouldLockDirection) {
             ci.cancel();
+            LookAroundMod.isDirectionLocked = true;
         }
     }
 }
