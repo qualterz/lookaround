@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import qualterz.minecraft.lookaround.CameraManager;
+import qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
@@ -25,41 +25,29 @@ public abstract class GameRendererMixin {
         return client.getCameraEntity() == null ? client.player : client.getCameraEntity();
     }
 
-    @Inject(method = "renderWorld", at = @At("HEAD"))
-    private void onRenderWorldBegin(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci)
-    {
-        CameraManager.tickDelta = tickDelta;
-
-        var limitNegativeYaw = CameraManager.actualYaw - 180f;
-        var limitPositiveYaw = CameraManager.actualYaw + 180f;
-
-        if (CameraManager.lookYaw > limitPositiveYaw)
-            CameraManager.lookYaw = limitPositiveYaw;
-
-        if (CameraManager.lookYaw < limitNegativeYaw)
-            CameraManager.lookYaw = limitNegativeYaw;
-    }
-
     @Inject(method = "renderHand", at = @At("HEAD"))
     private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        var cameraEntity = getCameraEntity();
+        if (LookAroundMod.isDirectionLocked || LookAroundMod.shouldAnimate) {
+            var cameraEntity = getCameraEntity();
 
-        var pitch = CameraManager.lookPitch;
+            var pitch = LookAroundMod.lookPitch;
 
-        if (CameraManager.viewLock || CameraManager.animate)
-            pitch -= MathHelper.abs(CameraManager.lookYaw - CameraManager.actualYaw);
+            pitch -= MathHelper.abs(LookAroundMod.lookYaw - LookAroundMod.actualYaw);
 
-        cameraEntity.setYaw(CameraManager.lookYaw);
-        cameraEntity.setPitch(pitch);
+            cameraEntity.setYaw(LookAroundMod.lookYaw);
+            cameraEntity.setPitch(pitch);
+        }
     }
 
     @Inject(method = "renderHand", at = @At("RETURN"))
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        var cameraEntity = getCameraEntity();
+        if (LookAroundMod.isDirectionLocked || LookAroundMod.shouldAnimate) {
+            var cameraEntity = getCameraEntity();
 
-        cameraEntity.setYaw(CameraManager.actualYaw);
-        cameraEntity.setPitch(CameraManager.actualPitch);
+            cameraEntity.setYaw(LookAroundMod.actualYaw);
+            cameraEntity.setPitch(LookAroundMod.actualPitch);
+        }
     }
 }

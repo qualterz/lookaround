@@ -9,11 +9,10 @@ import net.minecraft.client.util.InputUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import qualterz.minecraft.lookaround.mixin.EntityMixin;
 
 public class LookAroundMod implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
-
-	public static final float animationSpeed = 24f;
 
 	public static double offsetCrosshairX;
 	public static double offsetCrosshairY;
@@ -25,8 +24,6 @@ public class LookAroundMod implements ClientModInitializer {
 	public static float lookPitch;
 
 	public static boolean shouldAnimate;
-	public static boolean shouldAnimateYaw;
-	public static boolean shouldAnimatePitch;
 
 	public static boolean isDirectionLocked;
 	public static boolean shouldLockDirection;
@@ -46,5 +43,7 @@ public class LookAroundMod implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			shouldLockDirection = lookAroundBinding.isPressed();
 		});
+
+		shouldDrawCrosshair = true;
 	}
 }

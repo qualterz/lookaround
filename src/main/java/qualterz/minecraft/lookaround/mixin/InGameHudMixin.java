@@ -1,5 +1,6 @@
 package qualterz.minecraft.lookaround.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -10,21 +11,24 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import qualterz.minecraft.lookaround.CameraManager;
+import qualterz.minecraft.lookaround.LookAroundMod;
+import qualterz.minecraft.lookaround.ProjectionUtils;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
     private void onRenderCrosshairBegin(MatrixStack matrices, CallbackInfo ci)
     {
-        if (!CameraManager.drawCrosshair)
+        if (!LookAroundMod.shouldDrawCrosshair)
             ci.cancel();
     }
 
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        args.set(1, args.<Integer>get(1) + (int)CameraManager.offsetCrosshairX);
-        args.set(2, args.<Integer>get(2) + (int)CameraManager.offsetCrosshairY);
+        if (LookAroundMod.isDirectionLocked) {
+            args.set(1, args.<Integer>get(1) + (int)LookAroundMod.offsetCrosshairX);
+            args.set(2, args.<Integer>get(2) + (int)LookAroundMod.offsetCrosshairY);
+        }
     }
 }
