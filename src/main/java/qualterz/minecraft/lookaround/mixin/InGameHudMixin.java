@@ -24,7 +24,7 @@ public class InGameHudMixin {
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        if (LookAroundMod.isDirectionLocked || LookAroundMod.shouldAnimate) {
+        if (LookAroundMod.shouldAnimate) {
             args.set(1, args.<Integer>get(1) + (int)LookAroundMod.offsetCrosshairX);
             args.set(2, args.<Integer>get(2) + (int)LookAroundMod.offsetCrosshairY);
         }

@@ -28,7 +28,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("HEAD"))
     private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        if (LookAroundMod.isDirectionLocked || LookAroundMod.shouldAnimate) {
+        if (LookAroundMod.shouldAnimate) {
             var cameraEntity = getCameraEntity();
 
             var pitch = LookAroundMod.lookPitch;
@@ -43,7 +43,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("RETURN"))
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        if (LookAroundMod.isDirectionLocked || LookAroundMod.shouldAnimate) {
+        if (LookAroundMod.shouldAnimate) {
             var cameraEntity = getCameraEntity();
 
             cameraEntity.setYaw(LookAroundMod.actualYaw);

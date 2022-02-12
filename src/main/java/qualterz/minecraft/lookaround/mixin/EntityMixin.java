@@ -36,6 +36,8 @@ public abstract class EntityMixin {
             handleCrosshair();
             handleDirectionChange();
             handleLookAngleLimit();
+
+            LookAroundMod.shouldAnimate = true;
         } else if (LookAroundMod.shouldAnimate) {
             handleDirectionChange();
             handleCrosshair();
@@ -62,7 +64,6 @@ public abstract class EntityMixin {
     private void handleDirectionUnlock()
     {
         LookAroundMod.isDirectionLocked = false;
-        LookAroundMod.shouldAnimate = true;
     }
 
     private void handleCrosshair()
