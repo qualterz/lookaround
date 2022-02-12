@@ -76,7 +76,7 @@ public abstract class EntityMixin {
             var distance = Integer.MAX_VALUE;
             var position = cameraEntity.getPos();
 
-            // TODO: smooth rotation using previous values
+            // TODO: smooth rotation using previous rotation value
             var rotation = Vec3d.fromPolar(LookAroundMod.actualPitch, LookAroundMod.actualYaw);
 
             var point = position.add(
