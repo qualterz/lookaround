@@ -9,7 +9,6 @@ import net.minecraft.client.util.InputUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import qualterz.minecraft.lookaround.mixin.EntityMixin;
 
 public class LookAroundMod implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
