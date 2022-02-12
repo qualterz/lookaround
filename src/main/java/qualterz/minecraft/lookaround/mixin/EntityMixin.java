@@ -44,14 +44,16 @@ public abstract class EntityMixin {
         }
     }
 
-    private void handleBeforeDirectionLocked() {
+    private void handleBeforeDirectionLocked()
+    {
         handleDirectionChange();
 
         LookAroundMod.lookYaw = LookAroundMod.actualYaw;
         LookAroundMod.lookPitch = LookAroundMod.actualPitch;
     }
 
-    private void handleDirectionUnlock() {
+    private void handleDirectionUnlock()
+    {
         LookAroundMod.offsetCrosshairX = 0;
         LookAroundMod.offsetCrosshairY = 0;
 
@@ -60,7 +62,8 @@ public abstract class EntityMixin {
         LookAroundMod.shouldAnimate = true;
     }
 
-    private void handleCrosshair() {
+    private void handleCrosshair()
+    {
         var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
         if (MinecraftClient.getInstance().options.debugEnabled) {
@@ -90,14 +93,16 @@ public abstract class EntityMixin {
         }
     }
 
-    private void handleDirectionChange() {
+    private void handleDirectionChange()
+    {
         var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
         LookAroundMod.actualYaw = cameraEntity.getHeadYaw();
         LookAroundMod.actualPitch = cameraEntity.getPitch();
     }
 
-    private void handleLookAngleLimit() {
+    private void handleLookAngleLimit()
+    {
         var limitNegativeYaw = LookAroundMod.actualYaw - 180;
         var limitPositiveYaw = LookAroundMod.actualYaw + 180;
 
