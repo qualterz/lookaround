@@ -9,8 +9,9 @@
     "Qualterz"
   ],
   "contact": {
-    "homepage": "https://github.com/qualterz/lookaround",
-    "sources": "https://github.com/qualterz/lookaround"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/look-around",
+    "sources": "https://github.com/qualterz/lookaround",
+    "issues": "https://github.com/qualterz/lookaround/issues"
   },
 
   "license": "GPL-3.0",
