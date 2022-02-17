@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import qualterz.minecraft.lookaround.CameraState;
@@ -16,7 +15,7 @@ public abstract class EntityMixin {
     private CameraState cameraState;
 
     @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
-    private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo ci)
+    private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo callback)
     {
         if ((Entity)(Object)this instanceof ClientPlayerEntity)
         {
@@ -43,8 +42,8 @@ public abstract class EntityMixin {
             }
 
             if (cameraState.shouldLockDirection) {
-                ci.cancel();
-                cameraState.isDirectionLocked = true;
+                callback.cancel();
+                cameraState.isDirectionLocked = callback.isCancelled();
             }
         }
     }
