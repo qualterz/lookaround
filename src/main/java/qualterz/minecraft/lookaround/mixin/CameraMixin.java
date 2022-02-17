@@ -16,9 +16,11 @@ public abstract class CameraMixin
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
 	private void modifyRotationArgs(Args args)
 	{
-		if (LookAroundMod.isDirectionLocked) {
-			var yaw = LookAroundMod.lookYaw;
-			var pitch = LookAroundMod.lookPitch;
+		var cameraState = LookAroundMod.getInstance().getCameraState();
+
+		if (cameraState.isDirectionLocked) {
+			var yaw = cameraState.lookYaw;
+			var pitch = cameraState.lookPitch;
 
 			if (MinecraftClient.getInstance().options.getPerspective().isFrontView()) {
 				yaw -= 180;
@@ -27,22 +29,22 @@ public abstract class CameraMixin
 
 			args.set(0, yaw);
 			args.set(1, pitch);
-		} else if (LookAroundMod.shouldAnimate) {
+		} else if (cameraState.shouldAnimate) {
 			// TODO: account skipped frames
 			var steps = 2;
-			var yawDiff = LookAroundMod.lookYaw - LookAroundMod.actualYaw;
-			var pitchDiff = LookAroundMod.lookPitch - LookAroundMod.actualPitch;
+			var yawDiff = cameraState.lookYaw - cameraState.getActualYaw();
+			var pitchDiff = cameraState.lookPitch - cameraState.getActualPitch();
 			var yawStep = yawDiff / steps;
 			var pitchStep = pitchDiff / steps;
-			var yaw = LookAroundMod.lookYaw = MathHelper.stepTowards(LookAroundMod.lookYaw, LookAroundMod.actualYaw, yawStep);
-			var pitch = LookAroundMod.lookPitch = MathHelper.stepTowards(LookAroundMod.lookPitch, LookAroundMod.actualPitch, pitchStep);
+			var yaw = cameraState.lookYaw = MathHelper.stepTowards(cameraState.lookYaw, cameraState.getActualYaw(), yawStep);
+			var pitch = cameraState.lookPitch = MathHelper.stepTowards(cameraState.lookPitch, cameraState.getActualPitch(), pitchStep);
 
 			args.set(0, yaw);
 			args.set(1, pitch);
 
-			LookAroundMod.shouldAnimate =
-					(int)LookAroundMod.actualYaw != (int)yaw &&
-					(int)LookAroundMod.actualPitch != (int)pitch;
+			cameraState.shouldAnimate =
+					(int)cameraState.getActualYaw() != (int)yaw &&
+					(int)cameraState.getActualPitch() != (int)pitch;
 		}
 	}
 }

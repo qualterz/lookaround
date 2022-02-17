@@ -11,19 +11,24 @@ import org.slf4j.LoggerFactory;
 public class LookAroundMod implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
 
-	public static float actualYaw;
-	public static float actualPitch;
+	private static LookAroundMod instance;
 
-	public static float lookYaw;
-	public static float lookPitch;
+	public static LookAroundMod getInstance() {
+		return instance;
+	}
 
-	public static boolean shouldAnimate;
+	private CameraState cameraState;
 
-	public static boolean isDirectionLocked;
-	public static boolean shouldLockDirection;
+	public CameraState getCameraState() {
+		return cameraState;
+	}
 
 	@Override
 	public void onInitializeClient() {
+		instance = this;
+
+		cameraState = new CameraState();
+
 		var lookAroundBinding = KeyBindingHelper.registerKeyBinding(
 			new KeyBinding(
 				"key.lookAround",
@@ -34,7 +39,7 @@ public class LookAroundMod implements ClientModInitializer {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			shouldLockDirection = lookAroundBinding.isPressed();
+			cameraState.shouldLockDirection = lookAroundBinding.isPressed();
 		});
 	}
 }
