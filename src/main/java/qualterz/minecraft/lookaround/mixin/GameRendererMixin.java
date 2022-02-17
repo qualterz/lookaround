@@ -6,30 +6,25 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
-    @Shadow @Final private MinecraftClient client;
-
-    private Entity getCameraEntity()
-    {
-        return client.getCameraEntity() == null ? client.player : client.getCameraEntity();
-    }
+    private Entity cameraEntity;
+    private float previousYaw;
+    private float previousPitch;
 
     @Inject(method = "renderHand", at = @At("HEAD"))
     private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
         if (LookAroundMod.shouldAnimate) {
-            var cameraEntity = getCameraEntity();
+            cameraEntity = MinecraftClient.getInstance().getCameraEntity();
+            previousYaw = cameraEntity.getYaw();
+            previousPitch = cameraEntity.getPitch();
 
             var pitch = LookAroundMod.lookPitch;
 
@@ -44,10 +39,8 @@ public abstract class GameRendererMixin {
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
         if (LookAroundMod.shouldAnimate) {
-            var cameraEntity = getCameraEntity();
-
-            cameraEntity.setYaw(LookAroundMod.actualYaw);
-            cameraEntity.setPitch(LookAroundMod.actualPitch);
+            cameraEntity.setYaw(previousYaw);
+            cameraEntity.setPitch(previousPitch);
         }
     }
 }
