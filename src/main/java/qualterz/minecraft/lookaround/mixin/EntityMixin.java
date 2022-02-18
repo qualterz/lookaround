@@ -41,9 +41,6 @@ public abstract class EntityMixin {
 
                 cameraState.setLookYaw(yaw);
                 cameraState.setLookPitch(pitch);
-
-                handleLookAngleLimit();
-
             }
 
             if (cameraState.shouldLockDirection) {
@@ -64,18 +61,5 @@ public abstract class EntityMixin {
     private void handleDirectionUnlock()
     {
         cameraState.isDirectionLocked = false;
-    }
-
-    private void handleLookAngleLimit()
-    {
-        var limitNegativeYaw = cameraState.getActualYaw() - 180;
-        var limitPositiveYaw = cameraState.getActualYaw() + 180;
-
-        // TODO: make smoother transition if limit reached
-        if (cameraState.getLookYaw() > limitPositiveYaw)
-            cameraState.setLookYaw(limitPositiveYaw);
-
-        if (cameraState.getLookYaw() < limitNegativeYaw)
-            cameraState.setLookYaw(limitNegativeYaw);
     }
 }
