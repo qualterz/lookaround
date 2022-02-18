@@ -32,13 +32,18 @@ public abstract class EntityMixin {
                 var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
                 var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
 
-                cameraState.lookYaw += transformedCursorDeltaX;
-                cameraState.lookPitch += transformedCursorDeltaY;
-                cameraState.lookPitch = MathHelper.clamp(cameraState.lookPitch, -90, 90);
+                var yaw = cameraState.getLookYaw();
+                var pitch = cameraState.getLookPitch();
+
+                yaw += transformedCursorDeltaX;
+                pitch += transformedCursorDeltaY;
+                pitch = MathHelper.clamp(pitch, -90, 90);
+
+                cameraState.setLookYaw(yaw);
+                cameraState.setLookPitch(pitch);
 
                 handleLookAngleLimit();
 
-                cameraState.shouldAnimate = true;
             }
 
             if (cameraState.shouldLockDirection) {
@@ -50,8 +55,10 @@ public abstract class EntityMixin {
 
     private void handleBeforeDirectionLocked()
     {
-        cameraState.lookYaw = cameraState.getActualYaw();
-        cameraState.lookPitch = cameraState.getActualPitch();
+        cameraState.setLookYaw(cameraState.getActualYaw());
+        cameraState.setLookPitch(cameraState.getActualPitch());
+
+        cameraState.shouldAnimate = true;
     }
 
     private void handleDirectionUnlock()
@@ -65,10 +72,10 @@ public abstract class EntityMixin {
         var limitPositiveYaw = cameraState.getActualYaw() + 180;
 
         // TODO: make smoother transition if limit reached
-        if (cameraState.lookYaw > limitPositiveYaw)
-            cameraState.lookYaw = limitPositiveYaw;
+        if (cameraState.getLookYaw() > limitPositiveYaw)
+            cameraState.setLookYaw(limitPositiveYaw);
 
-        if (cameraState.lookYaw < limitNegativeYaw)
-            cameraState.lookYaw = limitNegativeYaw;
+        if (cameraState.getLookYaw() < limitNegativeYaw)
+            cameraState.setLookYaw(limitNegativeYaw);
     }
 }

@@ -19,8 +19,8 @@ public abstract class CameraMixin
 		var cameraState = LookAroundMod.getInstance().getCameraState();
 
 		if (cameraState.isDirectionLocked) {
-			var yaw = cameraState.lookYaw;
-			var pitch = cameraState.lookPitch;
+			var yaw = cameraState.getLookYaw();
+			var pitch = cameraState.getLookPitch();
 
 			if (MinecraftClient.getInstance().options.getPerspective().isFrontView()) {
 				yaw -= 180;
@@ -32,12 +32,15 @@ public abstract class CameraMixin
 		} else if (cameraState.shouldAnimate) {
 			// TODO: account skipped frames
 			var steps = 2;
-			var yawDiff = cameraState.lookYaw - cameraState.getActualYaw();
-			var pitchDiff = cameraState.lookPitch - cameraState.getActualPitch();
+			var yawDiff = cameraState.getLookYaw() - cameraState.getActualYaw();
+			var pitchDiff = cameraState.getLookPitch() - cameraState.getActualPitch();
 			var yawStep = yawDiff / steps;
 			var pitchStep = pitchDiff / steps;
-			var yaw = cameraState.lookYaw = MathHelper.stepTowards(cameraState.lookYaw, cameraState.getActualYaw(), yawStep);
-			var pitch = cameraState.lookPitch = MathHelper.stepTowards(cameraState.lookPitch, cameraState.getActualPitch(), pitchStep);
+			var yaw = MathHelper.stepTowards(cameraState.getLookYaw(), cameraState.getActualYaw(), yawStep);
+			var pitch = MathHelper.stepTowards(cameraState.getLookPitch(), cameraState.getActualPitch(), pitchStep);
+
+			cameraState.setLookYaw(yaw);
+			cameraState.setLookPitch(pitch);
 
 			args.set(0, yaw);
 			args.set(1, pitch);

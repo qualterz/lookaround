@@ -31,11 +31,11 @@ public abstract class GameRendererMixin {
             previousYaw = cameraEntity.getYaw();
             previousPitch = cameraEntity.getPitch();
 
-            var pitch = cameraState.lookPitch;
+            var pitch = cameraState.getLookPitch();
 
-            pitch -= MathHelper.abs(cameraState.lookYaw - cameraState.getActualYaw());
+            pitch -= MathHelper.abs(cameraState.getLookYaw() - cameraState.getActualYaw());
 
-            cameraEntity.setYaw(cameraState.lookYaw);
+            cameraEntity.setYaw(cameraState.getLookYaw());
             cameraEntity.setPitch(pitch);
         }
     }
