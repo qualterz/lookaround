@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 public class CameraState {
     public float getActualYaw()
     {
-        return MinecraftClient.getInstance().getCameraEntity().getYaw();
+        return MinecraftClient.getInstance().getCameraEntity().getHeadYaw();
     }
 
     public float getActualPitch()
