@@ -1,5 +1,8 @@
-package qualterz.minecraft.lookaround.mixin;
+package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookAroundMod;
+import me.qualterz.minecraft.lookaround.ProjectionUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
@@ -10,9 +13,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import qualterz.minecraft.lookaround.CameraState;
-import qualterz.minecraft.lookaround.LookAroundMod;
-import qualterz.minecraft.lookaround.ProjectionUtils;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
@@ -28,7 +28,7 @@ public class InGameHudMixin {
 
         var shouldDrawCrosshair = false;
 
-        if (cameraState.shouldAnimate) {
+        if (CameraState.shouldAnimate) {
             var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
             var distance = Integer.MAX_VALUE;
@@ -61,7 +61,7 @@ public class InGameHudMixin {
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        if (cameraState.shouldAnimate) {
+        if (CameraState.shouldAnimate) {
             args.set(1, args.<Integer>get(1) + (int)offsetCrosshairX);
             args.set(2, args.<Integer>get(2) + (int)offsetCrosshairY);
         }

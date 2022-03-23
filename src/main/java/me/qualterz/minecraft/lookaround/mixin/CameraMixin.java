@@ -1,5 +1,7 @@
-package qualterz.minecraft.lookaround.mixin;
+package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookAroundMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -8,11 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
-
 import net.minecraft.client.render.Camera;
-
-import qualterz.minecraft.lookaround.CameraState;
-import qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin
@@ -40,7 +38,7 @@ public abstract class CameraMixin
 	{
 		var cameraState = LookAroundMod.getInstance().getCameraState();
 
-		if (cameraState.isDirectionLocked) {
+		if (CameraState.isDirectionLocked) {
 			var yaw = cameraState.getLookYaw();
 			var pitch = cameraState.getLookPitch();
 
@@ -51,7 +49,7 @@ public abstract class CameraMixin
 
 			args.set(0, yaw);
 			args.set(1, pitch);
-		} else if (cameraState.shouldAnimate) {
+		} else if (CameraState.shouldAnimate) {
 			// TODO: account skipped frames
 			var steps = 2;
 			var yawDiff = cameraState.getLookYaw() - cameraState.getActualYaw();
@@ -67,7 +65,7 @@ public abstract class CameraMixin
 			args.set(0, yaw);
 			args.set(1, pitch);
 
-			cameraState.shouldAnimate =
+			CameraState.shouldAnimate =
 					(int)cameraState.getActualYaw() != (int)yaw &&
 					(int)cameraState.getActualPitch() != (int)pitch;
 		}

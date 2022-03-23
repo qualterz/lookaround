@@ -1,4 +1,4 @@
-package qualterz.minecraft.lookaround;
+package me.qualterz.minecraft.lookaround;
 
 import net.minecraft.client.MinecraftClient;
 

@@ -20,7 +20,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "qualterz.minecraft.lookaround.LookAroundMod"
+      "me.qualterz.minecraft.lookaround.LookAroundMod"
     ]
   },
   "mixins": [

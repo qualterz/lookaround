@@ -1,5 +1,7 @@
-package qualterz.minecraft.lookaround.mixin;
+package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookAroundMod;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -10,8 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import qualterz.minecraft.lookaround.CameraState;
-import qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
@@ -26,7 +26,7 @@ public abstract class GameRendererMixin {
     {
         cameraState = LookAroundMod.getInstance().getCameraState();
 
-        if (cameraState.shouldAnimate) {
+        if (CameraState.shouldAnimate) {
             cameraEntity = MinecraftClient.getInstance().getCameraEntity();
             previousYaw = cameraEntity.getYaw();
             previousPitch = cameraEntity.getPitch();
@@ -43,7 +43,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("RETURN"))
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        if (cameraState.shouldAnimate) {
+        if (CameraState.shouldAnimate) {
             cameraEntity.setYaw(previousYaw);
             cameraEntity.setPitch(previousPitch);
         }

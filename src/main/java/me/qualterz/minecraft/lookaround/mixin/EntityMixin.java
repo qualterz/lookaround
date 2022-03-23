@@ -1,5 +1,7 @@
-package qualterz.minecraft.lookaround.mixin;
+package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookAroundMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -7,8 +9,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import qualterz.minecraft.lookaround.CameraState;
-import qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -21,13 +21,13 @@ public abstract class EntityMixin {
         {
             cameraState = LookAroundMod.getInstance().getCameraState();
 
-            if (cameraState.shouldLockDirection && !cameraState.isDirectionLocked)
+            if (CameraState.shouldLockDirection && !CameraState.isDirectionLocked)
                 handleBeforeDirectionLocked();
 
-            if (!cameraState.shouldLockDirection && cameraState.isDirectionLocked)
+            if (!CameraState.shouldLockDirection && CameraState.isDirectionLocked)
                 handleDirectionUnlock();
 
-            if (cameraState.isDirectionLocked) {
+            if (CameraState.isDirectionLocked) {
                 var cursorDeltaMultiplier = 0.15f;
                 var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
                 var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
@@ -43,9 +43,9 @@ public abstract class EntityMixin {
                 cameraState.setLookPitch(pitch);
             }
 
-            if (cameraState.shouldLockDirection) {
+            if (CameraState.shouldLockDirection) {
                 callback.cancel();
-                cameraState.isDirectionLocked = callback.isCancelled();
+                CameraState.isDirectionLocked = callback.isCancelled();
             }
         }
     }
@@ -55,11 +55,11 @@ public abstract class EntityMixin {
         cameraState.setLookYaw(cameraState.getActualYaw());
         cameraState.setLookPitch(cameraState.getActualPitch());
 
-        cameraState.shouldAnimate = true;
+        CameraState.shouldAnimate = true;
     }
 
     private void handleDirectionUnlock()
     {
-        cameraState.isDirectionLocked = false;
+        CameraState.isDirectionLocked = false;
     }
 }

@@ -1,4 +1,4 @@
-package qualterz.minecraft.lookaround;
+package me.qualterz.minecraft.lookaround;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -39,7 +39,7 @@ public class LookAroundMod implements ClientModInitializer {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			cameraState.shouldLockDirection = lookAroundBinding.isPressed();
+			CameraState.shouldLockDirection = lookAroundBinding.isPressed();
 		});
 	}
 }
