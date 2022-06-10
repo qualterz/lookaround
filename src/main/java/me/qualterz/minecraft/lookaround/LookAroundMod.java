@@ -1,12 +1,14 @@
 package me.qualterz.minecraft.lookaround;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LookAroundMod implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
@@ -17,9 +19,9 @@ public class LookAroundMod implements ClientModInitializer {
 		return instance;
 	}
 
-	private CameraState cameraState;
+	private me.qualterz.minecraft.lookaround.CameraState cameraState;
 
-	public CameraState getCameraState() {
+	public me.qualterz.minecraft.lookaround.CameraState getCameraState() {
 		return cameraState;
 	}
 
@@ -27,7 +29,7 @@ public class LookAroundMod implements ClientModInitializer {
 	public void onInitializeClient() {
 		instance = this;
 
-		cameraState = new CameraState();
+		cameraState = new me.qualterz.minecraft.lookaround.CameraState();
 
 		var lookAroundBinding = KeyBindingHelper.registerKeyBinding(
 			new KeyBinding(

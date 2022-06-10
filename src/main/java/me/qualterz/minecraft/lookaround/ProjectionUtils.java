@@ -23,7 +23,7 @@ public class ProjectionUtils {
         calculation.transform(new Matrix3f(rotation));
 
         // TODO: use dynamic fov value
-        var fov = client.options.fov;
+        var fov = client.options.getFov().getValue();
 
         var half = client.getWindow().getScaledHeight() / 2;
         var scale = half / (calculation.getZ() * Math.tan(Math.toRadians(fov / 2)));

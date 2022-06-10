@@ -1,14 +1,16 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
-import me.qualterz.minecraft.lookaround.CameraState;
-import me.qualterz.minecraft.lookaround.LookAroundMod;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.Entity;
+
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
