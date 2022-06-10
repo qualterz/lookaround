@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.qualterz.minecraft.lookaround.CameraState;
-import me.qualterz.minecraft.lookaround.LookAroundMod;
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -21,7 +21,7 @@ public abstract class EntityMixin {
     {
         if ((Entity)(Object)this instanceof ClientPlayerEntity)
         {
-            cameraState = LookAroundMod.getInstance().getCameraState();
+            cameraState = LookaroundMod.getInstance().getCameraState();
 
             if (CameraState.shouldLockDirection && !CameraState.isDirectionLocked)
                 handleBeforeDirectionLocked();

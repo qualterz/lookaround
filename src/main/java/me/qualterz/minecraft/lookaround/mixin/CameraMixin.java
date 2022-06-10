@@ -1,5 +1,6 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +13,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.client.render.Camera;
 
 import me.qualterz.minecraft.lookaround.CameraState;
-import me.qualterz.minecraft.lookaround.LookAroundMod;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin
@@ -22,7 +22,7 @@ public abstract class CameraMixin
 	@Inject(method = "update", at = @At("HEAD"))
 	private void onCameraUpdate(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
 	{
-		cameraState = LookAroundMod.getInstance().getCameraState();
+		cameraState = LookaroundMod.getInstance().getCameraState();
 
 		var limitNegativeYaw = cameraState.getActualYaw() - 180;
 		var limitPositiveYaw = cameraState.getActualYaw() + 180;
@@ -38,7 +38,7 @@ public abstract class CameraMixin
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
 	private void modifyRotationArgs(Args args)
 	{
-		var cameraState = LookAroundMod.getInstance().getCameraState();
+		var cameraState = LookaroundMod.getInstance().getCameraState();
 
 		if (CameraState.isDirectionLocked) {
 			var yaw = cameraState.getLookYaw();

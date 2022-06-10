@@ -3,13 +3,13 @@
   "id": "lookaround",
   "version": "${version}",
 
-  "name": "Look Around!",
+  "name": "Lookaround!",
   "description": "A client-side mod that allows you to look around while moving or doing something",
   "authors": [
     "Qualterz"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/look-around",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/lookaround",
     "sources": "https://github.com/qualterz/lookaround",
     "issues": "https://github.com/qualterz/lookaround/issues"
   },
@@ -20,7 +20,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.qualterz.minecraft.lookaround.LookAroundMod"
+      "me.qualterz.minecraft.lookaround.LookaroundMod"
     ]
   },
   "mixins": [

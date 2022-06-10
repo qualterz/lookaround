@@ -10,12 +10,12 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
-public class LookAroundMod implements ClientModInitializer {
+public class LookaroundMod implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
 
-	private static LookAroundMod instance;
+	private static LookaroundMod instance;
 
-	public static LookAroundMod getInstance() {
+	public static LookaroundMod getInstance() {
 		return instance;
 	}
 

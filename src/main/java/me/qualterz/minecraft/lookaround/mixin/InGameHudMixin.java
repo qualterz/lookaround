@@ -1,5 +1,6 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +14,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 
 import me.qualterz.minecraft.lookaround.CameraState;
-import me.qualterz.minecraft.lookaround.LookAroundMod;
 import me.qualterz.minecraft.lookaround.ProjectionUtils;
 
 @Mixin(InGameHud.class)
@@ -26,7 +26,7 @@ public class InGameHudMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
     private void onRenderCrosshairBegin(MatrixStack matrices, CallbackInfo ci)
     {
-        cameraState = LookAroundMod.getInstance().getCameraState();
+        cameraState = LookaroundMod.getInstance().getCameraState();
 
         var shouldDrawCrosshair = false;
 
