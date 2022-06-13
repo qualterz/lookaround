@@ -4,7 +4,7 @@ This mod requires [Fabric API](https://github.com/FabricMC/fabric)
 A client-side Fabric mod that allows you to look around while moving or doing something
 
 ### How can i use it
-If you want to lock your head, you can just hold Left Alt to do so
+If you want to lock your head, you can just hold **Left Alt** to do so
 
 ### Use Cases
 - Flying with an elytra, you can check what is under you without speed or height loss
