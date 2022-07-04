@@ -26,3 +26,5 @@ https://user-images.githubusercontent.com/38355785/152867324-24a482ad-86c7-4853-
 
 https://user-images.githubusercontent.com/38355785/152866838-70cb5bd0-c18b-4723-b539-70e38ccd3c14.mp4
 </details>
+
+Available at [CurseForge](https://www.curseforge.com/minecraft/mc-mods/lookaround)
