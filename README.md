@@ -16,7 +16,7 @@ If you want to lock your head, you can just hold **Left Alt** to do so
 ### Gameplay
 In some cases, it's just a good alternative to third person mode
 
-<details>
+<details open>
 <summary>Demonstration</summary>
 <br>
 
