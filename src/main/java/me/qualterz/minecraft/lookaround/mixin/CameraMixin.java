@@ -17,12 +17,10 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 @Mixin(Camera.class)
 public abstract class CameraMixin
 {
-	CameraState cameraState;
-
 	@Inject(method = "update", at = @At("HEAD"))
 	private void onCameraUpdate(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
 	{
-		cameraState = LookaroundMod.getInstance().getCameraState();
+		CameraState cameraState = LookaroundMod.getInstance().getCameraState();
 
 		var limitNegativeYaw = cameraState.getActualYaw() - 180;
 		var limitPositiveYaw = cameraState.getActualYaw() + 180;
