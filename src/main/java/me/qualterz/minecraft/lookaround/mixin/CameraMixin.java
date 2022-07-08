@@ -1,6 +1,5 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
-import me.qualterz.minecraft.lookaround.LookaroundMod;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,6 +12,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.client.render.Camera;
 
 import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin

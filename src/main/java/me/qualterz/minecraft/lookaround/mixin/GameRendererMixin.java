@@ -1,6 +1,5 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
-import me.qualterz.minecraft.lookaround.LookaroundMod;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
 import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {

@@ -19,9 +19,9 @@ public class LookaroundMod implements ClientModInitializer {
 		return instance;
 	}
 
-	private me.qualterz.minecraft.lookaround.CameraState cameraState;
+	private CameraState cameraState;
 
-	public me.qualterz.minecraft.lookaround.CameraState getCameraState() {
+	public CameraState getCameraState() {
 		return cameraState;
 	}
 
@@ -29,7 +29,7 @@ public class LookaroundMod implements ClientModInitializer {
 	public void onInitializeClient() {
 		instance = this;
 
-		cameraState = new me.qualterz.minecraft.lookaround.CameraState();
+		cameraState = new CameraState();
 
 		var lookAroundBinding = KeyBindingHelper.registerKeyBinding(
 			new KeyBinding(
