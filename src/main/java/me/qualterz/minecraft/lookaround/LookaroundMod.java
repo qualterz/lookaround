@@ -41,7 +41,7 @@ public class LookaroundMod implements ClientModInitializer {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			CameraState.shouldLockDirection = lookAroundBinding.isPressed();
+			cameraState.shouldLockDirection = lookAroundBinding.isPressed();
 		});
 	}
 }

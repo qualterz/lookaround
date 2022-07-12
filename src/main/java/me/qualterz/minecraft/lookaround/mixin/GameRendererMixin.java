@@ -28,7 +28,7 @@ public abstract class GameRendererMixin {
     {
         cameraState = LookaroundMod.getInstance().getCameraState();
 
-        if (CameraState.shouldAnimate) {
+        if (cameraState.shouldAnimate) {
             cameraEntity = MinecraftClient.getInstance().getCameraEntity();
             previousYaw = cameraEntity.getYaw();
             previousPitch = cameraEntity.getPitch();
@@ -45,7 +45,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("RETURN"))
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        if (CameraState.shouldAnimate) {
+        if (cameraState.shouldAnimate) {
             cameraEntity.setYaw(previousYaw);
             cameraEntity.setPitch(previousPitch);
         }

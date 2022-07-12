@@ -23,13 +23,13 @@ public abstract class EntityMixin {
         {
             cameraState = LookaroundMod.getInstance().getCameraState();
 
-            if (CameraState.shouldLockDirection && !CameraState.isDirectionLocked)
+            if (cameraState.shouldLockDirection && !cameraState.isDirectionLocked)
                 handleBeforeDirectionLocked();
 
-            if (!CameraState.shouldLockDirection && CameraState.isDirectionLocked)
+            if (!cameraState.shouldLockDirection && cameraState.isDirectionLocked)
                 handleDirectionUnlock();
 
-            if (CameraState.isDirectionLocked) {
+            if (cameraState.isDirectionLocked) {
                 var cursorDeltaMultiplier = 0.15f;
                 var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
                 var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
@@ -45,9 +45,9 @@ public abstract class EntityMixin {
                 cameraState.setLookPitch(pitch);
             }
 
-            if (CameraState.shouldLockDirection) {
+            if (cameraState.shouldLockDirection) {
                 callback.cancel();
-                CameraState.isDirectionLocked = callback.isCancelled();
+                cameraState.isDirectionLocked = callback.isCancelled();
             }
         }
     }
@@ -57,11 +57,11 @@ public abstract class EntityMixin {
         cameraState.setLookYaw(cameraState.getActualYaw());
         cameraState.setLookPitch(cameraState.getActualPitch());
 
-        CameraState.shouldAnimate = true;
+        cameraState.shouldAnimate = true;
     }
 
     private void handleDirectionUnlock()
     {
-        CameraState.isDirectionLocked = false;
+        cameraState.isDirectionLocked = false;
     }
 }

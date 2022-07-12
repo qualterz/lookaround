@@ -45,8 +45,8 @@ public class CameraState {
         this.lookPitch = lookPitch;
     }
 
-    public static boolean shouldAnimate;
+    public boolean shouldAnimate;
 
-    public static boolean isDirectionLocked;
-    public static boolean shouldLockDirection;
+    public boolean isDirectionLocked;
+    public boolean shouldLockDirection;
 }

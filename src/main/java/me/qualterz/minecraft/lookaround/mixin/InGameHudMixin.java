@@ -30,7 +30,7 @@ public class InGameHudMixin {
 
         var shouldDrawCrosshair = false;
 
-        if (CameraState.shouldAnimate) {
+        if (cameraState.shouldAnimate) {
             var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
             var distance = Integer.MAX_VALUE;
@@ -63,7 +63,7 @@ public class InGameHudMixin {
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        if (CameraState.shouldAnimate) {
+        if (cameraState.shouldAnimate) {
             args.set(1, args.<Integer>get(1) + (int)offsetCrosshairX);
             args.set(2, args.<Integer>get(2) + (int)offsetCrosshairY);
         }

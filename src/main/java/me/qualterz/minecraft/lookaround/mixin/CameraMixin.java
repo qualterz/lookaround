@@ -38,7 +38,7 @@ public abstract class CameraMixin
 	{
 		var cameraState = LookaroundMod.getInstance().getCameraState();
 
-		if (CameraState.isDirectionLocked) {
+		if (cameraState.isDirectionLocked) {
 			var yaw = cameraState.getLookYaw();
 			var pitch = cameraState.getLookPitch();
 
@@ -49,7 +49,7 @@ public abstract class CameraMixin
 
 			args.set(0, yaw);
 			args.set(1, pitch);
-		} else if (CameraState.shouldAnimate) {
+		} else if (cameraState.shouldAnimate) {
 			// TODO: account skipped frames
 			var steps = 2;
 			var yawDiff = cameraState.getLookYaw() - cameraState.getActualYaw();
@@ -65,7 +65,7 @@ public abstract class CameraMixin
 			args.set(0, yaw);
 			args.set(1, pitch);
 
-			CameraState.shouldAnimate =
+			cameraState.shouldAnimate =
 					(int)cameraState.getActualYaw() != (int)yaw &&
 					(int)cameraState.getActualPitch() != (int)pitch;
 		}
