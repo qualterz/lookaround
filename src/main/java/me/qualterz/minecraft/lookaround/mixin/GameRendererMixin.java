@@ -17,7 +17,7 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
-    private CameraState cameraState;
+    private CameraState camera;
 
     private Entity cameraEntity;
     private float previousYaw;
@@ -26,18 +26,18 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("HEAD"))
     private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        cameraState = LookaroundMod.getInstance().getCameraState();
+        this.camera = LookaroundMod.getInstance().getCameraState();
 
-        if (cameraState.shouldAnimate) {
+        if (this.camera.shouldAnimate) {
             cameraEntity = MinecraftClient.getInstance().getCameraEntity();
             previousYaw = cameraEntity.getYaw();
             previousPitch = cameraEntity.getPitch();
 
-            var pitch = cameraState.getLookPitch();
+            var pitch = this.camera.lookPitch;
 
-            pitch -= MathHelper.abs(cameraState.getLookYaw() - cameraState.getActualYaw());
+            pitch -= MathHelper.abs(this.camera.lookYaw - this.camera.getActualYaw());
 
-            cameraEntity.setYaw(cameraState.getLookYaw());
+            cameraEntity.setYaw(this.camera.lookYaw);
             cameraEntity.setPitch(pitch);
         }
     }
@@ -45,7 +45,7 @@ public abstract class GameRendererMixin {
     @Inject(method = "renderHand", at = @At("RETURN"))
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
-        if (cameraState.shouldAnimate) {
+        if (this.camera.shouldAnimate) {
             cameraEntity.setYaw(previousYaw);
             cameraEntity.setPitch(previousPitch);
         }

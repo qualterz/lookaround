@@ -18,7 +18,7 @@ import me.qualterz.minecraft.lookaround.ProjectionUtils;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    private CameraState cameraState;
+    private CameraState camera;
 
     private float offsetCrosshairX;
     private float offsetCrosshairY;
@@ -26,18 +26,18 @@ public class InGameHudMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
     private void onRenderCrosshairBegin(MatrixStack matrices, CallbackInfo ci)
     {
-        cameraState = LookaroundMod.getInstance().getCameraState();
+        camera = LookaroundMod.getInstance().getCameraState();
 
         var shouldDrawCrosshair = false;
 
-        if (cameraState.shouldAnimate) {
+        if (camera.shouldAnimate) {
             var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
             var distance = Integer.MAX_VALUE;
             var position = cameraEntity.getPos();
 
             // TODO: smooth rotation using previous rotation value
-            var rotation = Vec3d.fromPolar(cameraState.getActualPitch(), cameraState.getActualYaw());
+            var rotation = Vec3d.fromPolar(camera.getActualPitch(), camera.getActualYaw());
 
             var point = position.add(
                     rotation.getX() * distance,
@@ -63,7 +63,7 @@ public class InGameHudMixin {
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        if (cameraState.shouldAnimate) {
+        if (camera.shouldAnimate) {
             args.set(1, args.<Integer>get(1) + (int)offsetCrosshairX);
             args.set(2, args.<Integer>get(2) + (int)offsetCrosshairY);
         }

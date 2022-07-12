@@ -1,10 +1,12 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,54 +16,54 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
-    private CameraState cameraState;
+    private CameraState camera;
 
     @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
     private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo callback)
     {
         if ((Entity)(Object)this instanceof ClientPlayerEntity)
         {
-            cameraState = LookaroundMod.getInstance().getCameraState();
+            camera = LookaroundMod.getInstance().getCameraState();
 
-            if (cameraState.shouldLockDirection && !cameraState.isDirectionLocked)
+            if (camera.shouldLockDirection && !camera.isDirectionLocked)
                 handleBeforeDirectionLocked();
 
-            if (!cameraState.shouldLockDirection && cameraState.isDirectionLocked)
+            if (!camera.shouldLockDirection && camera.isDirectionLocked)
                 handleDirectionUnlock();
 
-            if (cameraState.isDirectionLocked) {
+            if (camera.isDirectionLocked) {
                 var cursorDeltaMultiplier = 0.15f;
                 var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
                 var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
 
-                var yaw = cameraState.getLookYaw();
-                var pitch = cameraState.getLookPitch();
+                var yaw = camera.lookYaw;
+                var pitch = camera.lookPitch;
 
                 yaw += transformedCursorDeltaX;
                 pitch += transformedCursorDeltaY;
                 pitch = MathHelper.clamp(pitch, -90, 90);
 
-                cameraState.setLookYaw(yaw);
-                cameraState.setLookPitch(pitch);
+                camera.lookYaw = yaw;
+                camera.lookPitch = pitch;
             }
 
-            if (cameraState.shouldLockDirection) {
+            if (camera.shouldLockDirection) {
                 callback.cancel();
-                cameraState.isDirectionLocked = callback.isCancelled();
+                camera.isDirectionLocked = callback.isCancelled();
             }
         }
     }
 
     private void handleBeforeDirectionLocked()
     {
-        cameraState.setLookYaw(cameraState.getActualYaw());
-        cameraState.setLookPitch(cameraState.getActualPitch());
+        camera.lookYaw = camera.getActualYaw();
+        camera.lookPitch = camera.getActualPitch();
 
-        cameraState.shouldAnimate = true;
+        camera.shouldAnimate = true;
     }
 
     private void handleDirectionUnlock()
     {
-        cameraState.isDirectionLocked = false;
+        camera.isDirectionLocked = false;
     }
 }

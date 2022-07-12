@@ -11,7 +11,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.client.render.Camera;
 
-import me.qualterz.minecraft.lookaround.CameraState;
 import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(Camera.class)
@@ -20,27 +19,27 @@ public abstract class CameraMixin
 	@Inject(method = "update", at = @At("HEAD"))
 	private void onCameraUpdate(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
 	{
-		CameraState cameraState = LookaroundMod.getInstance().getCameraState();
+		var camera = LookaroundMod.getInstance().getCameraState();
 
-		var limitNegativeYaw = cameraState.getActualYaw() - 180;
-		var limitPositiveYaw = cameraState.getActualYaw() + 180;
+		var limitNegativeYaw = camera.getActualYaw() - 180;
+		var limitPositiveYaw = camera.getActualYaw() + 180;
 
 		// TODO: make smoother transition if limit reached
-		if (cameraState.getLookYaw() > limitPositiveYaw)
-			cameraState.setLookYaw(limitPositiveYaw);
+		if (camera.lookYaw > limitPositiveYaw)
+			camera.lookYaw = limitPositiveYaw;
 
-		if (cameraState.getLookYaw() < limitNegativeYaw)
-			cameraState.setLookYaw(limitNegativeYaw);
+		if (camera.lookYaw < limitNegativeYaw)
+			camera.lookYaw = limitNegativeYaw;
 	}
 
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
 	private void modifyRotationArgs(Args args)
 	{
-		var cameraState = LookaroundMod.getInstance().getCameraState();
+		var camera = LookaroundMod.getInstance().getCameraState();
 
-		if (cameraState.isDirectionLocked) {
-			var yaw = cameraState.getLookYaw();
-			var pitch = cameraState.getLookPitch();
+		if (camera.isDirectionLocked) {
+			var yaw = camera.lookYaw;
+			var pitch = camera.lookPitch;
 
 			if (MinecraftClient.getInstance().options.getPerspective().isFrontView()) {
 				yaw -= 180;
@@ -49,25 +48,25 @@ public abstract class CameraMixin
 
 			args.set(0, yaw);
 			args.set(1, pitch);
-		} else if (cameraState.shouldAnimate) {
+		} else if (camera.shouldAnimate) {
 			// TODO: account skipped frames
 			var steps = 2;
-			var yawDiff = cameraState.getLookYaw() - cameraState.getActualYaw();
-			var pitchDiff = cameraState.getLookPitch() - cameraState.getActualPitch();
+			var yawDiff = camera.lookYaw - camera.getActualYaw();
+			var pitchDiff = camera.lookPitch - camera.getActualPitch();
 			var yawStep = yawDiff / steps;
 			var pitchStep = pitchDiff / steps;
-			var yaw = MathHelper.stepTowards(cameraState.getLookYaw(), cameraState.getActualYaw(), yawStep);
-			var pitch = MathHelper.stepTowards(cameraState.getLookPitch(), cameraState.getActualPitch(), pitchStep);
+			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getActualYaw(), yawStep);
+			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getActualPitch(), pitchStep);
 
-			cameraState.setLookYaw(yaw);
-			cameraState.setLookPitch(pitch);
+			camera.lookYaw = yaw;
+			camera.lookPitch = pitch;
 
 			args.set(0, yaw);
 			args.set(1, pitch);
 
-			cameraState.shouldAnimate =
-					(int)cameraState.getActualYaw() != (int)yaw &&
-					(int)cameraState.getActualPitch() != (int)pitch;
+			camera.shouldAnimate =
+					(int)camera.getActualYaw() != (int)yaw &&
+					(int)camera.getActualPitch() != (int)pitch;
 		}
 	}
 }
