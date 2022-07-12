@@ -20,8 +20,8 @@ public abstract class GameRendererMixin {
     private CameraState camera;
 
     private Entity cameraEntity;
-    private float previousYaw;
-    private float previousPitch;
+    private float originalYaw;
+    private float originalPitch;
 
     @Inject(method = "renderHand", at = @At("HEAD"))
     private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
@@ -30,8 +30,8 @@ public abstract class GameRendererMixin {
 
         if (this.camera.shouldAnimate) {
             cameraEntity = MinecraftClient.getInstance().getCameraEntity();
-            previousYaw = cameraEntity.getYaw();
-            previousPitch = cameraEntity.getPitch();
+            originalYaw = cameraEntity.getYaw();
+            originalPitch = cameraEntity.getPitch();
 
             var pitch = this.camera.lookPitch;
 
@@ -46,8 +46,8 @@ public abstract class GameRendererMixin {
     private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
     {
         if (this.camera.shouldAnimate) {
-            cameraEntity.setYaw(previousYaw);
-            cameraEntity.setPitch(previousPitch);
+            cameraEntity.setYaw(originalYaw);
+            cameraEntity.setPitch(originalPitch);
         }
     }
 }
