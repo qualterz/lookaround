@@ -67,8 +67,8 @@ public abstract class CameraMixin
 			args.set(1, pitch);
 
 			camera.shouldAnimate =
-					(int)camera.getActualYaw() != (int)yaw &&
-					(int)camera.getActualPitch() != (int)pitch;
+					(int)camera.getActualYaw() != (int)camera.lookYaw ||
+					(int)camera.getActualPitch() != (int)camera.lookPitch;
 		}
 
 		lastUpdate = getCurrentTime();
