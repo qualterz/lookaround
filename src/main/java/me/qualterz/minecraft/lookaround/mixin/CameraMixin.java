@@ -52,11 +52,11 @@ public abstract class CameraMixin
 			args.set(1, pitch);
 		} else if (camera.shouldAnimate) {
 			var delta = (getCurrentTime() - lastUpdate);
-			var steps = 1.1f;
+			var speed = 1.2f;
 			var yawDiff = camera.lookYaw - camera.getActualYaw();
 			var pitchDiff = camera.lookPitch - camera.getActualPitch();
-			var yawStep = (yawDiff / steps) * delta;
-			var pitchStep = (pitchDiff / steps) * delta;
+			var yawStep = (yawDiff * speed) * delta;
+			var pitchStep = (pitchDiff * speed) * delta;
 			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getActualYaw(), yawStep);
 			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getActualPitch(), pitchStep);
 
