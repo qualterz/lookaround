@@ -16,6 +16,8 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 @Mixin(Camera.class)
 public abstract class CameraMixin
 {
+	private float lastUpdate;
+
 	@Inject(method = "update", at = @At("HEAD"))
 	private void onCameraUpdate(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci)
 	{
@@ -49,12 +51,12 @@ public abstract class CameraMixin
 			args.set(0, yaw);
 			args.set(1, pitch);
 		} else if (camera.shouldAnimate) {
-			// TODO: account skipped frames
-			var steps = 2;
+			var delta = (getCurrentTime() - lastUpdate);
+			var steps = 1.1f;
 			var yawDiff = camera.lookYaw - camera.getActualYaw();
 			var pitchDiff = camera.lookPitch - camera.getActualPitch();
-			var yawStep = yawDiff / steps;
-			var pitchStep = pitchDiff / steps;
+			var yawStep = (yawDiff / steps) * delta;
+			var pitchStep = (pitchDiff / steps) * delta;
 			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getActualYaw(), yawStep);
 			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getActualPitch(), pitchStep);
 
@@ -68,5 +70,11 @@ public abstract class CameraMixin
 					(int)camera.getActualYaw() != (int)yaw &&
 					(int)camera.getActualPitch() != (int)pitch;
 		}
+
+		lastUpdate = getCurrentTime();
+	}
+
+	private float getCurrentTime() {
+		return (float) (System.nanoTime() * 0.00000001);
 	}
 }
