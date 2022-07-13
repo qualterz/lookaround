@@ -11,7 +11,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 
 public class LookaroundMod implements ClientModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("LookAround");
+	public static final Logger LOGGER = LoggerFactory.getLogger("Lookaround!");
 
 	private static LookaroundMod instance;
 
