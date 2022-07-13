@@ -22,22 +22,23 @@ public abstract class EntityMixin {
         if ((Entity)(Object)this instanceof ClientPlayerEntity) {
             camera = LookaroundMod.getInstance().getCameraState();
 
-            var cursorDeltaMultiplier = 0.15f;
-            var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
-            var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
+            if (camera.doLock) {
+                var cursorDeltaMultiplier = 0.15f;
+                var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
+                var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
 
-            var yaw = camera.lookYaw;
-            var pitch = camera.lookPitch;
+                var yaw = camera.lookYaw;
+                var pitch = camera.lookPitch;
 
-            yaw += transformedCursorDeltaX;
-            pitch += transformedCursorDeltaY;
-            pitch = MathHelper.clamp(pitch, -90, 90);
+                yaw += transformedCursorDeltaX;
+                pitch += transformedCursorDeltaY;
+                pitch = MathHelper.clamp(pitch, -90, 90);
 
-            camera.lookYaw = yaw;
-            camera.lookPitch = pitch;
+                camera.lookYaw = yaw;
+                camera.lookPitch = pitch;
 
-            if (camera.doLock)
                 callback.cancel();
+            }
         }
     }
 }
