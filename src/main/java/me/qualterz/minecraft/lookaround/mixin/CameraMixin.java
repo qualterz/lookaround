@@ -1,5 +1,6 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.Mixin;
@@ -7,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.*;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.client.render.Camera;
 
@@ -23,8 +23,8 @@ public abstract class CameraMixin
 	{
 		var camera = LookaroundMod.getInstance().getCameraState();
 
-		var limitNegativeYaw = camera.getOriginalYaw() - 180;
-		var limitPositiveYaw = camera.getOriginalYaw() + 180;
+		var limitNegativeYaw = camera.originalYaw() - 180;
+		var limitPositiveYaw = camera.originalYaw() + 180;
 
 		// TODO: make smoother transition if limit reached
 		if (camera.lookYaw > limitPositiveYaw)
@@ -39,7 +39,7 @@ public abstract class CameraMixin
 	{
 		var camera = LookaroundMod.getInstance().getCameraState();
 
-		if (camera.isDirectionLocked) {
+		if (camera.doLock) {
 			var yaw = camera.lookYaw;
 			var pitch = camera.lookPitch;
 
@@ -50,17 +50,17 @@ public abstract class CameraMixin
 
 			args.set(0, yaw);
 			args.set(1, pitch);
-		} else if (camera.shouldAnimate) {
+		} else if (camera.doTransition) {
 			var delta = (getCurrentTime() - lastUpdate);
 
-			var speed = 1.2f;
-			var minStep = 2f;
-			var yawDiff = camera.lookYaw - camera.getOriginalYaw();
-			var pitchDiff = camera.lookPitch - camera.getOriginalPitch();
-			var yawStep = minStep * (yawDiff * speed);
-			var pitchStep = minStep * (pitchDiff * speed);
-			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getOriginalYaw(), yawStep * delta);
-			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getOriginalPitch(), pitchStep * delta);
+			var steps = 1.2f;
+			var speed = 2f;
+			var yawDiff = camera.lookYaw - camera.originalYaw();
+			var pitchDiff = camera.lookPitch - camera.originalPitch();
+			var yawStep = speed * (yawDiff * steps);
+			var pitchStep = speed * (pitchDiff * steps);
+			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.originalYaw(), yawStep * delta);
+			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.originalPitch(), pitchStep * delta);
 
 			camera.lookYaw = yaw;
 			camera.lookPitch = pitch;
@@ -68,9 +68,9 @@ public abstract class CameraMixin
 			args.set(0, yaw);
 			args.set(1, pitch);
 
-			camera.shouldAnimate =
-					(int)camera.getOriginalYaw() != (int)camera.lookYaw ||
-					(int)camera.getOriginalPitch() != (int)camera.lookPitch;
+			camera.doTransition =
+					(int)camera.originalYaw() != (int)camera.lookYaw ||
+					(int)camera.originalPitch() != (int)camera.lookPitch;
 		}
 
 		lastUpdate = getCurrentTime();

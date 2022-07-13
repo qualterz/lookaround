@@ -3,12 +3,12 @@ package me.qualterz.minecraft.lookaround;
 import net.minecraft.client.MinecraftClient;
 
 public class CameraState {
-    public float getOriginalYaw()
+    public float originalYaw()
     {
         return MinecraftClient.getInstance().getCameraEntity().getHeadYaw();
     }
 
-    public float getOriginalPitch()
+    public float originalPitch()
     {
         return MinecraftClient.getInstance().getCameraEntity().getPitch();
     }
@@ -16,7 +16,9 @@ public class CameraState {
     public float lookYaw;
     public float lookPitch;
 
-    public boolean shouldAnimate;
-    public boolean isDirectionLocked;
-    public boolean shouldLockDirection;
+    public float transitionInitialYaw;
+    public float transitionInitialPitch;
+
+    public boolean doLock;
+    public boolean doTransition;
 }

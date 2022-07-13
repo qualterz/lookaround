@@ -19,49 +19,25 @@ public abstract class EntityMixin {
     @Inject(method = "changeLookDirection", at = @At("HEAD"), cancellable = true)
     private void onChangeLookDirection(double cursorDeltaX, double cursorDeltaY, CallbackInfo callback)
     {
-        if ((Entity)(Object)this instanceof ClientPlayerEntity)
-        {
+        if ((Entity)(Object)this instanceof ClientPlayerEntity) {
             camera = LookaroundMod.getInstance().getCameraState();
 
-            if (camera.shouldLockDirection && !camera.isDirectionLocked)
-                handleBeforeDirectionLocked();
+            var cursorDeltaMultiplier = 0.15f;
+            var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
+            var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
 
-            if (!camera.shouldLockDirection && camera.isDirectionLocked)
-                handleDirectionUnlock();
+            var yaw = camera.lookYaw;
+            var pitch = camera.lookPitch;
 
-            if (camera.isDirectionLocked) {
-                var cursorDeltaMultiplier = 0.15f;
-                var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
-                var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
+            yaw += transformedCursorDeltaX;
+            pitch += transformedCursorDeltaY;
+            pitch = MathHelper.clamp(pitch, -90, 90);
 
-                var yaw = camera.lookYaw;
-                var pitch = camera.lookPitch;
+            camera.lookYaw = yaw;
+            camera.lookPitch = pitch;
 
-                yaw += transformedCursorDeltaX;
-                pitch += transformedCursorDeltaY;
-                pitch = MathHelper.clamp(pitch, -90, 90);
-
-                camera.lookYaw = yaw;
-                camera.lookPitch = pitch;
-            }
-
-            if (camera.shouldLockDirection) {
+            if (camera.doLock)
                 callback.cancel();
-                camera.isDirectionLocked = callback.isCancelled();
-            }
         }
-    }
-
-    private void handleBeforeDirectionLocked()
-    {
-        camera.lookYaw = camera.getOriginalYaw();
-        camera.lookPitch = camera.getOriginalPitch();
-
-        camera.shouldAnimate = true;
-    }
-
-    private void handleDirectionUnlock()
-    {
-        camera.isDirectionLocked = false;
     }
 }

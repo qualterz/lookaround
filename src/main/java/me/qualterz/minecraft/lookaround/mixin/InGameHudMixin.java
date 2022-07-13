@@ -30,14 +30,14 @@ public class InGameHudMixin {
 
         var shouldDrawCrosshair = false;
 
-        if (camera.shouldAnimate) {
+        if (camera.doTransition || camera.doLock) {
             var cameraEntity = MinecraftClient.getInstance().getCameraEntity();
 
             var distance = Integer.MAX_VALUE;
             var position = cameraEntity.getPos();
 
             // TODO: smooth rotation using previous rotation value
-            var rotation = Vec3d.fromPolar(camera.getOriginalPitch(), camera.getOriginalYaw());
+            var rotation = Vec3d.fromPolar(camera.originalPitch(), camera.originalYaw());
 
             var point = position.add(
                     rotation.getX() * distance,
@@ -63,7 +63,7 @@ public class InGameHudMixin {
     @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
-        if (camera.shouldAnimate) {
+        if (camera.doTransition || camera.doLock) {
             args.set(1, args.<Integer>get(1) + (int)offsetCrosshairX);
             args.set(2, args.<Integer>get(2) + (int)offsetCrosshairY);
         }

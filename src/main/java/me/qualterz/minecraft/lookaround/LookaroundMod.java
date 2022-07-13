@@ -19,17 +19,17 @@ public class LookaroundMod implements ClientModInitializer {
 		return instance;
 	}
 
-	private CameraState cameraState;
+	private CameraState camera;
 
 	public CameraState getCameraState() {
-		return cameraState;
+		return camera;
 	}
 
 	@Override
 	public void onInitializeClient() {
 		instance = this;
 
-		cameraState = new CameraState();
+		camera = new CameraState();
 
 		var lookAroundBinding = KeyBindingHelper.registerKeyBinding(
 			new KeyBinding(
@@ -41,7 +41,25 @@ public class LookaroundMod implements ClientModInitializer {
 		);
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			cameraState.shouldLockDirection = lookAroundBinding.isPressed();
+			var doLock = lookAroundBinding.isPressed() && !camera.doLock;
+			var doUnlock = !lookAroundBinding.isPressed() && camera.doLock;
+
+			if (doLock) {
+				if (!camera.doTransition) {
+					camera.lookYaw = camera.originalYaw();
+					camera.lookPitch = camera.originalPitch();
+				}
+
+				camera.doLock = true;
+			}
+
+			if (doUnlock) {
+				camera.doLock = false;
+				camera.doTransition = true;
+
+				camera.transitionInitialYaw = camera.lookYaw;
+				camera.transitionInitialPitch = camera.lookPitch;
+			}
 		});
 	}
 }
