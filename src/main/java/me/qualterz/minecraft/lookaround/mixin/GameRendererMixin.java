@@ -35,7 +35,7 @@ public abstract class GameRendererMixin {
 
             var pitch = this.camera.lookPitch;
 
-            pitch -= MathHelper.abs(this.camera.lookYaw - this.camera.getActualYaw());
+            pitch -= MathHelper.abs(this.camera.lookYaw - this.camera.getOriginalYaw());
 
             cameraEntity.setYaw(this.camera.lookYaw);
             cameraEntity.setPitch(pitch);

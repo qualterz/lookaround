@@ -23,8 +23,8 @@ public abstract class CameraMixin
 	{
 		var camera = LookaroundMod.getInstance().getCameraState();
 
-		var limitNegativeYaw = camera.getActualYaw() - 180;
-		var limitPositiveYaw = camera.getActualYaw() + 180;
+		var limitNegativeYaw = camera.getOriginalYaw() - 180;
+		var limitPositiveYaw = camera.getOriginalYaw() + 180;
 
 		// TODO: make smoother transition if limit reached
 		if (camera.lookYaw > limitPositiveYaw)
@@ -55,12 +55,12 @@ public abstract class CameraMixin
 
 			var speed = 1.2f;
 			var minStep = 2f;
-			var yawDiff = camera.lookYaw - camera.getActualYaw();
-			var pitchDiff = camera.lookPitch - camera.getActualPitch();
+			var yawDiff = camera.lookYaw - camera.getOriginalYaw();
+			var pitchDiff = camera.lookPitch - camera.getOriginalPitch();
 			var yawStep = minStep * (yawDiff * speed);
 			var pitchStep = minStep * (pitchDiff * speed);
-			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getActualYaw(), yawStep * delta);
-			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getActualPitch(), pitchStep * delta);
+			var yaw = MathHelper.stepTowards(camera.lookYaw, camera.getOriginalYaw(), yawStep * delta);
+			var pitch = MathHelper.stepTowards(camera.lookPitch, camera.getOriginalPitch(), pitchStep * delta);
 
 			camera.lookYaw = yaw;
 			camera.lookPitch = pitch;
@@ -69,8 +69,8 @@ public abstract class CameraMixin
 			args.set(1, pitch);
 
 			camera.shouldAnimate =
-					(int)camera.getActualYaw() != (int)camera.lookYaw ||
-					(int)camera.getActualPitch() != (int)camera.lookPitch;
+					(int)camera.getOriginalYaw() != (int)camera.lookYaw ||
+					(int)camera.getOriginalPitch() != (int)camera.lookPitch;
 		}
 
 		lastUpdate = getCurrentTime();

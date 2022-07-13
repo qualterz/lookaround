@@ -3,12 +3,12 @@ package me.qualterz.minecraft.lookaround;
 import net.minecraft.client.MinecraftClient;
 
 public class CameraState {
-    public float getActualYaw()
+    public float getOriginalYaw()
     {
         return MinecraftClient.getInstance().getCameraEntity().getHeadYaw();
     }
 
-    public float getActualPitch()
+    public float getOriginalPitch()
     {
         return MinecraftClient.getInstance().getCameraEntity().getPitch();
     }

@@ -37,7 +37,7 @@ public class InGameHudMixin {
             var position = cameraEntity.getPos();
 
             // TODO: smooth rotation using previous rotation value
-            var rotation = Vec3d.fromPolar(camera.getActualPitch(), camera.getActualYaw());
+            var rotation = Vec3d.fromPolar(camera.getOriginalPitch(), camera.getOriginalYaw());
 
             var point = position.add(
                     rotation.getX() * distance,
