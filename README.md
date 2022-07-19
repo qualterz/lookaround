@@ -1,7 +1,7 @@
-This mod requires [Fabric API](https://github.com/FabricMC/fabric)
-
 # Lookaround!
 A client-side Fabric mod that allows you to look around while moving or doing something
+
+This mod requires [Fabric API](https://github.com/FabricMC/fabric)
 
 ### How can i use it
 If you want to lock your head, you can just hold **Left Alt** to do so
