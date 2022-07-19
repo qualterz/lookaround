@@ -1,19 +1,19 @@
 # Lookaround!
-A client-side Fabric mod that allows you to look around while moving or doing something
+Look around while moving or doing something
 
 This mod requires [Fabric API](https://github.com/FabricMC/fabric)
 
 Available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/lookaround)
 
 ### How can i use it
-If you want to lock your head, you can just hold **Left Alt** to do so
+To lock your head just hold **Left Alt**
 
 ### Use Cases
-- Flying with an elytra, you can check what is under you without speed or height loss
-- Riding a horse or any other vehicle, you can see what is behind you without stopping
-- Running away from someone, you can check his position without actual rotation
-- Breaking a block, you can see what is happening around you
-- Using third person mode, you can view your player model
+- Flying with an elytra, check what is under you without speed or height loss
+- Riding a vehicle, see what is behind you without stopping
+- Running away from someone, check his position without actual rotation
+- Breaking a block, see what is happening around you
+- Using third person mode, view your player model
 
 ### Gameplay
 In some cases, it's just a good alternative to third person mode
