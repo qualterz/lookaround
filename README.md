@@ -3,6 +3,8 @@ A client-side Fabric mod that allows you to look around while moving or doing so
 
 This mod requires [Fabric API](https://github.com/FabricMC/fabric)
 
+Available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/lookaround)
+
 ### How can i use it
 If you want to lock your head, you can just hold **Left Alt** to do so
 
@@ -26,5 +28,3 @@ https://user-images.githubusercontent.com/38355785/152867324-24a482ad-86c7-4853-
 
 https://user-images.githubusercontent.com/38355785/152866838-70cb5bd0-c18b-4723-b539-70e38ccd3c14.mp4
 </details>
-
-Available at [CurseForge](https://www.curseforge.com/minecraft/mc-mods/lookaround)
