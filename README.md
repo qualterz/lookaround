@@ -5,10 +5,10 @@ This mod requires [Fabric API](https://github.com/FabricMC/fabric)
 
 Available on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/lookaround)
 
-### How can i use it
+### How to use
 To lock your head just hold **Left Alt**
 
-### Use Cases
+### Use cases
 - Flying with an elytra, check what is under you without speed or height loss
 - Riding a vehicle, see what is behind you without stopping
 - Running away from someone, check his position without actual rotation
