@@ -10,7 +10,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.BlockView;
 import net.minecraft.client.render.Camera;
-
 import me.qualterz.minecraft.lookaround.LookaroundMod;
 
 @Mixin(Camera.class)
