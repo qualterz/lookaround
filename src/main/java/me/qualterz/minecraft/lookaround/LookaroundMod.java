@@ -35,7 +35,7 @@ public class LookaroundMod implements ClientModInitializer {
 				"key.lookAround",
 				InputUtil.Type.KEYSYM,
 				InputUtil.GLFW_KEY_LEFT_ALT,
-				KeyBinding.MOVEMENT_CATEGORY
+				KeyBinding.GAMEPLAY_CATEGORY
 			)
 		);
 
