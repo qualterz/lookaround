@@ -1,6 +1,7 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
 import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +16,7 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 @Mixin(Camera.class)
 public abstract class CameraMixin
 {
+	@Shadow private float cameraY;
 	private float lastUpdate;
 
 	@Inject(method = "update", at = @At("HEAD"))
@@ -22,15 +24,17 @@ public abstract class CameraMixin
 	{
 		var camera = LookaroundMod.getInstance().getCameraState();
 
-		var limitNegativeYaw = camera.originalYaw() - 180;
-		var limitPositiveYaw = camera.originalYaw() + 180;
+		if (camera.doLock) {
+			var limitNegativeYaw = camera.originalYaw() - 180;
+			var limitPositiveYaw = camera.originalYaw() + 180;
 
-		// TODO: make smoother transition if limit reached
-		if (camera.lookYaw > limitPositiveYaw)
-			camera.lookYaw = limitPositiveYaw;
+			// TODO: make smoother transition if limit reached
+			if (camera.lookYaw > limitPositiveYaw)
+				camera.lookYaw = limitPositiveYaw;
 
-		if (camera.lookYaw < limitNegativeYaw)
-			camera.lookYaw = limitNegativeYaw;
+			if (camera.lookYaw < limitNegativeYaw)
+				camera.lookYaw = limitNegativeYaw;
+		}
 	}
 
 	@ModifyArgs(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;setRotation(FF)V"))
