@@ -2,6 +2,7 @@ package me.qualterz.minecraft.lookaround;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

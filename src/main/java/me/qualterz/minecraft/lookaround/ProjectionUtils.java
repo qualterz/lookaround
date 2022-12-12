@@ -1,35 +1,25 @@
 package me.qualterz.minecraft.lookaround;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.Vec3d;
 
 public class ProjectionUtils {
-    public static Vec3f worldToScreen(Vec3d destination)
+    public static Vec3d worldToScreen(Vec3d destination)
     {
         var client = MinecraftClient.getInstance();
         var renderer = client.gameRenderer;
         var camera = renderer.getCamera();
         var position = camera.getPos();
-        var rotation = camera.getRotation().copy();
+        var rotation = camera.getRotation();
 
-        rotation.conjugate();
-
-        var calculation = new Vec3f(
-            (float) (position.x - destination.getX()),
-            (float) (position.y - destination.getY()),
-            (float) (position.z - destination.getZ())
-        );
-
-        calculation.transform(new Matrix3f(rotation));
+        var calculation = rotation.conjugate().transform(position.subtract(destination).toVector3f());
 
         // TODO: use dynamic fov value
         var fov = client.options.getFov().getValue();
 
         var half = client.getWindow().getScaledHeight() / 2;
-        var scale = half / (calculation.getZ() * Math.tan(Math.toRadians(fov / 2)));
+        var scale = half / (calculation.z() * Math.tan(Math.toRadians(fov / 2)));
 
-        return new Vec3f((float) (calculation.getX() * scale), (float) (calculation.getY() * scale), calculation.getZ());
+        return new Vec3d((calculation.x() * scale), (calculation.y() * scale), calculation.z());
     }
 }
