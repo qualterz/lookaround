@@ -23,22 +23,28 @@ public abstract class EntityMixin {
             camera = LookaroundMod.getInstance().getCameraState();
 
             if (camera.doLock) {
-                var cursorDeltaMultiplier = 0.15f;
-                var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
-                var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
-
-                var yaw = camera.lookYaw;
-                var pitch = camera.lookPitch;
-
-                yaw += transformedCursorDeltaX;
-                pitch += transformedCursorDeltaY;
-                pitch = MathHelper.clamp(pitch, -90, 90);
-
-                camera.lookYaw = yaw;
-                camera.lookPitch = pitch;
-
+                applyTransformedAngle(cursorDeltaX, cursorDeltaY);
                 callback.cancel();
+            } else if (camera.doTransition) {
+                applyTransformedAngle(cursorDeltaX, cursorDeltaY);
             }
         }
+    }
+    
+    private void applyTransformedAngle(double cursorDeltaX, double cursorDeltaY)
+    {
+        var cursorDeltaMultiplier = 0.15f;
+        var transformedCursorDeltaX = (float)cursorDeltaX * cursorDeltaMultiplier;
+        var transformedCursorDeltaY = (float)cursorDeltaY * cursorDeltaMultiplier;
+
+        var yaw = camera.lookYaw;
+        var pitch = camera.lookPitch;
+
+        yaw += transformedCursorDeltaX;
+        pitch += transformedCursorDeltaY;
+        pitch = MathHelper.clamp(pitch, -90, 90);
+
+        camera.lookYaw = yaw;
+        camera.lookPitch = pitch;
     }
 }
