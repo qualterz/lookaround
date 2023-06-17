@@ -5,8 +5,8 @@ import me.qualterz.minecraft.lookaround.LookaroundMod;
 import me.qualterz.minecraft.lookaround.ProjectionUtils;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3d;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +24,7 @@ public class InGameHudMixin {
     private double offsetCrosshairY;
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
-    private void onRenderCrosshairBegin(MatrixStack matrices, CallbackInfo ci)
+    private void onRenderCrosshairBegin(DrawContext context, CallbackInfo ci)
     {
         camera = LookaroundMod.getInstance().getCameraState();
 
@@ -60,7 +60,7 @@ public class InGameHudMixin {
         }
     }
 
-    @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
+    @ModifyArgs(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
     private void modifyDrawTextureArgs(Args args)
     {
         if (camera.doTransition || camera.doLock) {
