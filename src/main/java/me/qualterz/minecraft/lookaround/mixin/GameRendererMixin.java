@@ -1,19 +1,17 @@
 package me.qualterz.minecraft.lookaround.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.util.math.MathHelper;
+import me.qualterz.minecraft.lookaround.CameraState;
+import me.qualterz.minecraft.lookaround.LookaroundMod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-
-import me.qualterz.minecraft.lookaround.CameraState;
-import me.qualterz.minecraft.lookaround.LookaroundMod;
+import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
@@ -24,8 +22,7 @@ public abstract class GameRendererMixin {
     private float originalPitch;
 
     @Inject(method = "renderHand", at = @At("HEAD"))
-    private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
-    {
+    private void onRenderHandBegin(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
         this.camera = LookaroundMod.getInstance().getCameraState();
 
         if (this.camera.doTransition || this.camera.doLock) {
@@ -43,8 +40,7 @@ public abstract class GameRendererMixin {
     }
 
     @Inject(method = "renderHand", at = @At("RETURN"))
-    private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci)
-    {
+    private void onRenderHandEnd(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
         if (this.camera.doTransition || this.camera.doLock) {
             cameraEntity.setYaw(originalYaw);
             cameraEntity.setPitch(originalPitch);

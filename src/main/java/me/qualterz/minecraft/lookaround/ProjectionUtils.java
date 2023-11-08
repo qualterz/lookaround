@@ -1,11 +1,11 @@
 package me.qualterz.minecraft.lookaround;
 
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Vec3d;
 
 public class ProjectionUtils {
-    public static Vec3d worldToScreen(Vec3d destination)
-    {
+    public static Vec3d worldToScreen(Vec3d destination) {
         var client = MinecraftClient.getInstance();
         var renderer = client.gameRenderer;
         var camera = renderer.getCamera();

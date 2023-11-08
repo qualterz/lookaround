@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "lookaround",
   "version": "${version}",
-
   "name": "Lookaround!",
   "description": "A client-side mod that allows you to look around while moving or doing something",
   "authors": [
@@ -13,10 +12,8 @@
     "sources": "https://github.com/qualterz/lookaround",
     "issues": "https://github.com/qualterz/lookaround/issues"
   },
-
   "license": "GPL-3.0",
   "icon": "assets/lookaround/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -26,11 +23,10 @@
   "mixins": [
     "lookaround.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.7",
     "fabric": ">=0.55.1",
-    "minecraft": ">=1.20.1",
+    "minecraft": ">=1.20.2",
     "java": ">=17"
   }
 }

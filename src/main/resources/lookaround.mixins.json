@@ -4,9 +4,9 @@
   "package": "me.qualterz.minecraft.lookaround.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "CameraMixin",
     "EntityMixin",
     "GameRendererMixin",
-    "CameraMixin",
     "InGameHudMixin"
   ],
   "injectors": {
